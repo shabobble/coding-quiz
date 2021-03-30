@@ -68,7 +68,7 @@ function render(questionIndex) {
     ulCreate.innerHTML = "";
 
     for (var i = 0; i < quizQuestions.length; i++) {
-        let userQuestion = quizQuestions[questionIndex].title;
+        let userQuestion = quizQuestions[questionIndex].question;
         var userAnswers = quizQuestions[questionIndex].answers;
         quiz.textContent = userQuestion;
     }
@@ -183,6 +183,9 @@ function gameOver() {
     // createSubmit.setAtrribute("type", "button");
     createSubmit.setAttribute("id", "Submit");
     createSubmit.textContent = "Submit";
+    createSubmit.addEventListener("click", function() {
+        window.location.replace("./scores.html");
+    })
 
     quiz.appendChild(createSubmit);
 
