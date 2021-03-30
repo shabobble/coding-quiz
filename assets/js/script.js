@@ -183,35 +183,60 @@ function gameOver() {
     // createSubmit.setAtrribute("type", "button");
     createSubmit.setAttribute("id", "Submit");
     createSubmit.textContent = "Submit";
-    createSubmit.addEventListener("click", function() {
-        window.location.replace("./scores.html");
+    createSubmit.addEventListener("click", function(event) {
+        event.preventDefault();
+        saveNewScore();
+        // window.location.replace("./scores.html");
     })
 
     quiz.appendChild(createSubmit);
 
-    let initials = createInput.value;
+    // let initials = createInput.value;
 
-    if (!initials) {
+    // if (!initials) {
 
-        console.log("No value entered!");
+    //     console.log("No value entered!");
 
-    } else {
-        let finalScore = {
-            initials: initials,
-            score: timeRemaining
-        }
-        console.log(finalScore);
-        let allScores = localStorage.getItem("allScores");
-        if (!allScores) {
-            allScores = [];
-        } else {
-            allScores = JSON.parse(allScores);
-        }
-        allScores.push(finalScore);
-        let newScore = JSON.stringify(allScores);
-        localStorage.setItem("allScores", newScore);
-        window.location.replace("./scores.html");
-    }
+    // } else {
+    //     let finalScore = {
+    //         initials: initials,
+    //         score: timeRemaining
+    //     }
+    //     console.log(finalScore);
+    //     let allScores = localStorage.getItem("allScores");
+    //     if (!allScores) {
+    //         allScores = [];
+    //     } else {
+    //         allScores = JSON.parse(allScores);
+    //     }
+    //     allScores.push(finalScore);
+    //     let newScore = JSON.stringify(allScores);
+    //     localStorage.setItem("allScores", newScore);
+    //     window.location.replace("./scores.html");
+    // }
+}
+
+
+function saveNewScore() {
+     let finalScore = {
+         initials: initials.value,
+         score: secondsLeft
+     };
+
+     let allScores = localStorage.getItem("allScores");
+
+     if (!allScores) {
+         allScores = [];
+     } else {
+         allScores = JSON.parse(allScores);
+     }
+    allScores.push(finalScore);
+    let newScore = JSON.stringify(allScores);
+    localStorage.setItem("allScores", newScore);
+
+    //  localStorage.setItem("newScore", JSON.stringify(newScore));
+
+     window.location.replace("./scores.html");
 }
 
 

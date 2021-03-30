@@ -10,7 +10,7 @@ clearButton.addEventListener("click", function() {
 let allScores = localStorage.getItem("allScores");
 allScores = JSON.parse(allScores);
 
-if (!allScores) {
+if (allScores !== null) {
 
     for (var i = 0; i < allScores.length; i++) {
 
