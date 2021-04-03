@@ -32,7 +32,7 @@ let quizQuestions = [
 // Establishes variables
 
 let score = 0;
-let questionIndex = 0;
+let currentQuestion = 0;
 let createDiv = document.createElement("div");
 
 let currentTime = document.querySelector("#currentTime");
@@ -41,35 +41,35 @@ let quiz = document.querySelector("#quiz");
 let container = document.querySelector("#container");
 
 let secondsLeft = 76;
-let holdInterval = 0;
+let timerInterval = 0;
 let wrongPenalty = 10;
 let ulCreate = document.createElement("ul");
 
 startButton.addEventListener("click", function() {
-    if (holdInterval === 0) {
-        holdInterval = setInterval(function() {
+    if (timerInterval === 0) {
+        timerInterval = setInterval(function() {
             secondsLeft--;
             currentTime.textContent = "Time: " + secondsLeft;
 
             if (secondsLeft <= 0) {
-                clearInterval(holdInterval);
+                clearInterval(timerInterval);
                 gameOver();
                 currentTime.textContent = "Time's up!";
             }
         }, 1000);
     }
-    render(questionIndex);
+    render(currentQuestion);
 });
 
 // Render function displays questions and answers in order until all questions are answered. 
 
-function render(questionIndex) {
+function render(currentQuestion) {
     quiz.innerHTML = "";
     ulCreate.innerHTML = "";
 
     for (var i = 0; i < quizQuestions.length; i++) {
-        let userQuestion = quizQuestions[questionIndex].question;
-        var userAnswers = quizQuestions[questionIndex].answers;
+        let userQuestion = quizQuestions[currentQuestion].question;
+        var userAnswers = quizQuestions[currentQuestion].answers;
         quiz.textContent = userQuestion;
     }
 
@@ -95,7 +95,7 @@ function compare(event) {
 
         // If user is clicking on a list item, and that list item matches the correct answer, return "Correct!"
 
-        if (element.textContent == quizQuestions[questionIndex].correctAnswer) {
+        if (element.textContent == quizQuestions[currentQuestion].correctAnswer) {
             
             score++;
             createDiv.textContent = "Correct!";
@@ -103,17 +103,17 @@ function compare(event) {
 
         } else {
             secondsLeft = secondsLeft - wrongPenalty;
-            createDiv.textContent = "Wrong! The correct answer is: " + quizQuestions[questionIndex].correctAnswer;
+            createDiv.textContent = "Wrong! The correct answer is: " + quizQuestions[currentQuestion].correctAnswer;
         }
     }
 
     // Advances quiz to next question in array
 
-    questionIndex++;
+    currentQuestion++;
 
     // Ends quiz once user has finished last question in array
 
-    if (questionIndex >= quizQuestions.length) {
+    if (currentQuestion >= quizQuestions.length) {
 
         createDiv.setAttribute("id", "createDiv");
 
@@ -121,7 +121,7 @@ function compare(event) {
         setTimeout(gameOver(), 5000);
 
     } else {
-        render(questionIndex);
+        render(currentQuestion);
     }
 quiz.appendChild(createDiv);
 
@@ -154,7 +154,7 @@ function gameOver() {
     if (secondsLeft >= 0) {
         let timeRemaining = secondsLeft;
         let createP2 = document.createElement("p");
-        clearInterval(holdInterval);
+        clearInterval(timerInterval);
         createP.textContent = "Your final score is: " + timeRemaining;
 
         quiz.appendChild(createP2);
@@ -173,6 +173,7 @@ function gameOver() {
     createInput.setAttribute("type", "text");
     createInput.setAttribute("id", "initials");
     createInput.setAttribute("placeholder", "AAA");
+    createInput.required = true;
     createInput.textContent = "";
 
     quiz.appendChild(createInput);
@@ -180,40 +181,14 @@ function gameOver() {
     // Appends submit button to body of page
 
     var createSubmit = document.createElement("button");
-    // createSubmit.setAtrribute("type", "button");
     createSubmit.setAttribute("id", "Submit");
     createSubmit.textContent = "Submit";
     createSubmit.addEventListener("click", function(event) {
         event.preventDefault();
         saveNewScore();
-        // window.location.replace("./scores.html");
     })
 
     quiz.appendChild(createSubmit);
-
-    // let initials = createInput.value;
-
-    // if (!initials) {
-
-    //     console.log("No value entered!");
-
-    // } else {
-    //     let finalScore = {
-    //         initials: initials,
-    //         score: timeRemaining
-    //     }
-    //     console.log(finalScore);
-    //     let allScores = localStorage.getItem("allScores");
-    //     if (!allScores) {
-    //         allScores = [];
-    //     } else {
-    //         allScores = JSON.parse(allScores);
-    //     }
-    //     allScores.push(finalScore);
-    //     let newScore = JSON.stringify(allScores);
-    //     localStorage.setItem("allScores", newScore);
-    //     window.location.replace("./scores.html");
-    // }
 }
 
 
@@ -222,6 +197,12 @@ function saveNewScore() {
          initials: initials.value,
          score: secondsLeft
      };
+
+    if (finalScore.initials == '') {
+        alert('You must enter your initials!');
+        return
+    
+    }
 
      let allScores = localStorage.getItem("allScores");
 
@@ -233,8 +214,6 @@ function saveNewScore() {
     allScores.push(finalScore);
     let newScore = JSON.stringify(allScores);
     localStorage.setItem("allScores", newScore);
-
-    //  localStorage.setItem("newScore", JSON.stringify(newScore));
 
      window.location.replace("./scores.html");
 }
