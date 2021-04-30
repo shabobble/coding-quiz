@@ -173,7 +173,6 @@ function gameOver() {
     createInput.setAttribute("type", "text");
     createInput.setAttribute("id", "initials");
     createInput.setAttribute("placeholder", "AAA");
-    createInput.required = true;
     createInput.textContent = "";
 
     quiz.appendChild(createInput);

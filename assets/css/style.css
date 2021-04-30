@@ -30,12 +30,9 @@
 }
 #backButton {
     background-color: purple;
-    /* position: relative; */
     padding: 10px;
     font-size: 20px;
     color: white;
-    /* top: 30%;
-    left: 60%; */
     width: auto;
     text-align: center;
     text-decoration: none;
@@ -43,12 +40,9 @@
 
 #clearButton {
     background-color: purple;
-    /* position: relative; */
     padding: 10px;
     font-size: 20px;
     color: white;
-    /* top: 30%;
-    right: 10%; */
     text-align: center;
 }
 
@@ -111,16 +105,6 @@ li {
     a {
         margin-left: 20%;
     }
-
-    /* #backButton {
-        position: relative;
-        left: 55%;
-    }
-
-    #clearButton {
-        position: relative;
-        right: 5%;
-    } */
 
     #test {
         display: flex;
